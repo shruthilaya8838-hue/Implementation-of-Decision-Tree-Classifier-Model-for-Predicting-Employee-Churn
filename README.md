@@ -15,40 +15,36 @@ To write a program to implement the Decision Tree Classifier Model for Predictin
 ## Program:
 ```
 import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
 import matplotlib.pyplot as plt
-from sklearn import tree
-
-file_path = 'Employee.csv'
-data = pd.read_csv(file_path)
-
-data = pd.get_dummies(data)
-
-X = data.drop('left', axis=1)
-y = data['left']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-clf = DecisionTreeClassifier()
-clf.fit(X_train, y_train)
-
-y_pred = clf.predict(X_test)
-print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
-print(classification_report(y_test, y_pred))
-print("Confusion Matrix:")
-print(confusion_matrix(y_test, y_pred))
-
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+from sklearn.metrics import accuracy_score
+data = pd.read_csv("Employee.csv")
+data = pd.get_dummies(data, drop_first=True)
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+model = DecisionTreeClassifier(random_state=42)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
 plt.figure(figsize=(20,10))
-tree.plot_tree(clf, feature_names=X.columns, class_names=['Stayed', 'Left'], filled=True)
+
+plot_tree(
+    model,
+    feature_names=X.columns,
+    filled=True
+)
+
 plt.show()
 
 ```
 
 ## Output:
 
-<img width="1347" height="774" alt="Screenshot 2026-05-13 091242" src="https://github.com/user-attachments/assets/96162bbe-2e08-4493-9223-38e9c89d2f79" />
+<img width="1300" height="670" alt="image" src="https://github.com/user-attachments/assets/becb15c8-ed5c-4388-96f4-ea5ffbb81ca7" />
 
 ## Result:
 Thus the program to implement the  Decision Tree Classifier Model for Predicting Employee Churn is written and verified using python programming.
